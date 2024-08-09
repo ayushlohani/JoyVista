@@ -1,8 +1,11 @@
 import { Router } from "express";
+import { LoginUser, LogoutUser, RegisterUser } from "../controllers/User.contoller.js";
+import { upload } from "../middlewares/multer.middleware.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
-router.route("/").get((req,res)=>{
-    res.send("Hello");
-})
+router.route("/register").post(upload.fields([{name:"profilepic",maxCount : 1}]),RegisterUser);
+router.route("/login").post(LoginUser);
+router.route("/logout").post(verifyJWT,LogoutUser);
 
 export default router;

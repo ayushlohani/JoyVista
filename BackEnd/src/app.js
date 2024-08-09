@@ -18,6 +18,6 @@ app.use(express.static("public"));
 //TODO:import routes
 import UserRouter from "./routes/user.route.js"
 
-app.use("/",UserRouter);
+app.use("/api/v1/users",UserRouter);
 
 export default app;
