@@ -1,7 +1,7 @@
-/* eslint-disable no-unused-vars */
+ 
 import axios from "axios";
 
-const base_url = "http://localhost:8000";
+const base_url = "http://localhost:8000/api/v1";
 
 export const fetchfromapi = async (url,params)=>{
     try {

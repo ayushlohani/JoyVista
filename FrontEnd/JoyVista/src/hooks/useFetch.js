@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+ import { useEffect, useState } from "react";
 import { fetchfromapi } from "../utils/api";
 
 export const useFetch = (url,params)=>{

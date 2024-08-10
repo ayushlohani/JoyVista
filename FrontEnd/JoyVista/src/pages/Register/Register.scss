@@ -1,3 +1,19 @@
+$orange:#F2A97E;
+$white:#F2F2F2;
+$gray:#BFBFBF;
+$Brown:#AC7E66;
+$Black:#0D0D0D;
 .register{
-    
+    display: flex;
+    background-color: rgb(253, 253, 253);
+    height: 100vh;
+    overflow: hidden;
+    .left-register{
+        height: 100%;
+        width: 40%;
+        img{
+            height: 100%;
+            width: 100%;
+        }
+    }
 }

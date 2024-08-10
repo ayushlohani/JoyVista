@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { sendDataToapi } from "../utils/api";
 
-/* eslint-disable no-unused-vars */
 export const usePost = (url,body)=>{
     const [res,setres] = useState(null);
     const [loading,setloading] = useState(false);
