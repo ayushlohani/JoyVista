@@ -37,15 +37,15 @@ const RegisterUser = asyncHandler(async (req,res)=>{
 
     const profilepicLocalPath = req.files?.profilepic[0]?.path;
 
-    if(!profilepicLocalPath){
-        throw new ApiError(402,"File can't be Located");
-    }
+    // if(!profilepicLocalPath){
+    //     throw new ApiError(402,"File can't be Located");
+    // }
 
     const profilepic = await uploadonCloudinary(profilepicLocalPath);
 
-    if(!profilepic){
-        throw new ApiError(401,"Profile Upload in cloudinary is failed");
-    }
+    // if(!profilepic){
+    //     throw new ApiError(401,"Profile Upload in cloudinary is failed");
+    // }
 
     const user =await User.create({
         name,
@@ -55,7 +55,7 @@ const RegisterUser = asyncHandler(async (req,res)=>{
         bio,
         phoneno,
         dob,
-        profilepic:profilepic.url
+        profilepic:profilepic.url || "https://w7.pngwing.com/pngs/708/467/png-transparent-avatar-default-head-person-unknown-user-anonym-user-pictures-icon.png"
     })
 
     if(!user){
