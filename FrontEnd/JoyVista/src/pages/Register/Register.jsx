@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Register.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { sendDataToapi } from "../../utils/api";
 
 const Register = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -17,6 +18,7 @@ const Register = () => {
     const [profilepic, setProfilepic] = useState(null);
     const [error, setError] = useState('');
     const [loading,setloading] = useState(false);
+    const [success,setsuccess] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -61,6 +63,7 @@ const Register = () => {
 
             sendDataToapi("/users/register",formDataToSend).then((res)=>{
                 setloading(false);
+                if(res.data.statusCode === 200) setsuccess(true);
                 console.log(res);
             }).catch((err)=>{
                 setloading(false);
@@ -68,6 +71,26 @@ const Register = () => {
             })
         }
     };
+    useEffect(()=>{
+        if(success){
+            setloading(true);
+            const logindata = {
+                email:formData.email,
+                password:formData.password
+            }
+            const logindatatosend = JSON.stringify(logindata);
+            sendDataToapi("/users/login", logindatatosend,'application/json')
+            .then((res) => {
+                setloading(false);
+                console.log(res);
+                if(res.data.statusCode === 200) navigate("/home");
+            })
+            .catch((err) => {
+                setloading(false);
+                setError("Incorrect Email or Username or Password");
+            });
+        }
+    },[success])
 
     return (
         <div className="register">

@@ -26,10 +26,12 @@ $Black:#0D0D0D;
     .right-register {
       flex: 1;
       display: flex;
+      margin-bottom: 10%;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 2rem;
+      height: 100%;
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   
@@ -42,7 +44,6 @@ $Black:#0D0D0D;
       .form {
         width: 100%;
         max-width: 500px;
-  
         .row {
           display: flex;
           flex-wrap: wrap; // Allow wrapping for responsiveness
@@ -104,7 +105,7 @@ $Black:#0D0D0D;
         margin-top: 1rem;
         color: #007bff;
         text-decoration: none;
-  
+        height: 0%;
         &:hover {
           text-decoration: underline;
         }
