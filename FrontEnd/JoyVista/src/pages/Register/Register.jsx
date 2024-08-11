@@ -119,6 +119,7 @@ const Register = () => {
                         id="dob"
                         name="dob"
                         placeholder="Date Of Birth"
+                        className="file-inp"
                         value={formData.dob}
                         onChange={handleChange}
                     />
@@ -154,8 +155,8 @@ const Register = () => {
                     <button type="submit" id="submit">Register</button>
                 </div>
             </form>
+            {error && <div className="err">*{error}</div>}
             <Link className="login" to={"/login"}>Already Have Account(Login)</Link>
-            {error && <div className="err">{error}</div>}
             {loading && <div>Loading...</div>}
             </div>
         </div>

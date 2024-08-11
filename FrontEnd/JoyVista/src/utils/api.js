@@ -15,11 +15,11 @@ export const fetchfromapi = async (url,params)=>{
     }
 }
 
-export const sendDataToapi = async (url,body)=>{
+export const sendDataToapi = async (url,body,header)=>{
     try {
         const result = await axios.post(base_url + url,body,{
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': header || 'multipart/form-data',
             },
         });
         return result;

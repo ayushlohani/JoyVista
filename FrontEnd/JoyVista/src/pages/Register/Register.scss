@@ -3,17 +3,176 @@ $white:#F2F2F2;
 $gray:#BFBFBF;
 $Brown:#AC7E66;
 $Black:#0D0D0D;
-.register{
+.register {
     display: flex;
-    background-color: rgb(253, 253, 253);
+    flex-wrap: wrap; // Allow wrapping for responsiveness
     height: 100vh;
+    background-color: #f4f4f9;
     overflow: hidden;
-    .left-register{
+  
+    .left-register {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e0e0e0;
+  
+      img {
+        width: 100%;
         height: 100%;
-        width: 40%;
-        img{
-            height: 100%;
+      }
+    }
+  
+    .right-register {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+      h2 {
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        color: #333;
+      }
+  
+      .form {
+        width: 100%;
+        max-width: 500px;
+  
+        .row {
+          display: flex;
+          flex-wrap: wrap; // Allow wrapping for responsiveness
+          gap: 1rem;
+          margin-bottom: 1rem;
+  
+          input {
+            flex: 1;
+            min-width: 0; // Ensures inputs shrink to fit
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: #333;
+  
+            &::placeholder {
+              color: #aaa;
+            }
+  
+            &:focus {
+              border-color: #007bff;
+              outline: none;
+            }
+          }
+  
+          #profilepic {
+            padding: 0;
+            flex: 0 0 auto; // Ensures the file input does not shrink
+          }
+        }
+  
+        .full-row {
+          margin-bottom: 1rem;
+  
+          input {
             width: 100%;
+            height: 40px;
+            padding: 20px;
+          }
+        }
+  
+        #submit {
+          width: 100%;
+          padding: 0.75rem;
+          border: none;
+          border-radius: 4px;
+          background-color: #007bff;
+          color: #fff;
+          font-size: 1rem;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+      }
+  
+      .login {
+        margin-top: 1rem;
+        color: #007bff;
+        text-decoration: none;
+  
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+  
+      .err {
+        margin-top: 1rem;
+        color: #dc3545;
+        font-size: 0.875rem;
+      }
+    }
+  }
+  
+  // Responsive Styles
+  @media (max-width: 768px) {
+    .register {
+      flex-direction: column;
+      overflow: scroll;
+    }
+  
+    .left-register{
+        display: none;
+        img{
+            display: none;
         }
     }
-}
+    .right-register {
+      flex: none;
+      width: 100%;
+      height: 120%;
+    }
+  
+    .form {
+      max-width: 100%;
+      input{
+        height: 25px;
+      }
+    }
+  
+    .row {
+      flex-direction: column; // Stack inputs vertically on smaller screens
+    }
+  
+    .row input {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .right-register {
+      padding: 0.5rem;
+    }
+  
+    .form {
+      padding: 0.5rem;
+    }
+  
+    h2 {
+      font-size: 1.5rem; // Reduce font size for smaller screens
+    }
+  
+    .row input {
+      padding: 0.5rem;
+    }
+  
+    #submit {
+      padding: 0.5rem;
+    }
+  }
+  
