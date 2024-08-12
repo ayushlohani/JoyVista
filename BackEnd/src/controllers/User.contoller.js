@@ -156,4 +156,14 @@ const refreshAccessToken = asyncHandler(async (req,res)=>{
     }
 })
 
-export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken};
+const getLoggedinUser = asyncHandler(async (req,res)=>{
+    const user = req.user;
+    const Loggedinuser = await User.findById(user?._id);
+    if(!Loggedinuser){
+        throw new ApiError(404,"User Not Found");
+    }
+
+    return res.status(200).json(new ApiResponse(200,Loggedinuser,"User Fetched Successfully"));
+})
+
+export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser};

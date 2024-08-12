@@ -3,27 +3,36 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 
-const verifyJWT = asyncHandler(async (req,res,next)=>{
-    try{
-        const token = req.cookies?.accessToken || req.header("Authorization").replace("Bearer ","");
-        if(!token){
-            throw new ApiError(404,"accessToken Not Found");
+const verifyJWT = asyncHandler(async (req, res, next) => {
+    try {
+        // Extract token from cookies or Authorization header
+        const token = req.cookies?.accessToken || (req.header("Authorization")?.replace("Bearer ", "") || "");
+        
+        if (!token) {
+            throw new ApiError(401, "Access Token Not Found");
         }
 
-        const accessToken_Secret = "abxhaiiisjanan1987";
-        const decodededToken = jwt.verify(token,accessToken_Secret);
+        const accessTokenSecret = "abxhaiiisjanan1987";
 
-        const user = await User.findById(decodededToken?._id).select("-password -refreshToken");
-        if(!user){
-            throw new ApiError(404,"User Not Found");
+        // Verify token
+        let decodedToken;
+        try {
+            decodedToken = jwt.verify(token, accessTokenSecret);
+        } catch (err) {
+            throw new ApiError(401, "Invalid Token");
+        }
+
+        // Find the user associated with the token
+        const user = await User.findById(decodedToken._id).select("-password -refreshToken");
+        if (!user) {
+            throw new ApiError(404, "User Not Found");
         }
 
         req.user = user;
         next();
-    }
-    catch(err){
-        throw new ApiError(401,error?.message || "Invalid Token");
+    } catch (error) {
+        next(error); 
     }
 });
 
-export {verifyJWT};
+export { verifyJWT };

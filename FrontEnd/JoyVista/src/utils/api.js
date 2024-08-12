@@ -7,6 +7,7 @@ export const fetchfromapi = async (url,params)=>{
     try {
         const {data} = await axios.get(base_url + url,{
             params,
+            withCredentials: true // Ensure cookies are getting with the request (Imp)
         })
     
         return data;
@@ -21,6 +22,7 @@ export const sendDataToapi = async (url,body,header)=>{
             headers: {
                 'Content-Type': header || 'multipart/form-data',
             },
+            withCredentials:true, // Ensure cookies are sent with the request (Imp)
         });
         return result;
     } catch (error) {
