@@ -44,6 +44,24 @@ $Black:#0D0D0D;
       .form {
         width: 100%;
         max-width: 500px;
+        .password-container {
+          position: relative;
+      }
+      
+      .password-container input {
+          width: 100%;
+          padding-right: 40px; /* Space for the eye icon */
+      }
+      
+      .eye-icon {
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+          cursor: pointer;
+          font-size: 18px;
+      }
+      
         .row {
           display: flex;
           flex-wrap: wrap; // Allow wrapping for responsiveness

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { sendDataToapi } from "../../utils/api";
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
 import "./Login.scss"
 
 const Login = () => {
@@ -13,6 +14,7 @@ const Login = () => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
 
     const validate = () => {
         const { emailUsername, password } = data;
@@ -39,17 +41,21 @@ const Login = () => {
             const formDataToSend = JSON.stringify(formData);
             console.log(formDataToSend);
             setLoading(true);
-            sendDataToapi("/users/login", formDataToSend,'application/json')
+            sendDataToapi("/users/login", formDataToSend, 'application/json')
                 .then((res) => {
                     setLoading(false);
                     console.log(res);
-                    if(res.data.statusCode === 200) navigate("/home");
+                    if (res.data.statusCode === 200) navigate("/home");
                 })
                 .catch((err) => {
                     setLoading(false);
                     setError("Incorrect Email or Username or Password");
                 });
         }
+    }
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
     }
 
     return (
@@ -68,14 +74,19 @@ const Login = () => {
                         value={data.emailUsername}
                         onChange={handleChange}
                     />
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Enter Password"
-                        value={data.password}
-                        onChange={handleChange}
-                    />
+                    <div className="password-container">
+                        <input
+                            type={passwordVisible ? "text" : "password"}
+                            id="password"
+                            name="password"
+                            placeholder="Enter Password"
+                            value={data.password}
+                            onChange={handleChange}
+                        />
+                        <div className="eye-icon" onClick={togglePasswordVisibility}>
+                            {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                        </div>
+                    </div>
                     <button type="submit" id="submit">Login</button>
                 </form>
                 {error && <div className="err">{error}</div>}
