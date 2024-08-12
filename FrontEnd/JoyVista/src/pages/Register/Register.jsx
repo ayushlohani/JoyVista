@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { sendDataToapi } from "../../utils/api";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
 import "./Register.scss";
+import Loader from "../../components/Loader/Loader";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -192,7 +193,7 @@ const Register = () => {
                 </form>
                 {error && <div className="err">*{error}</div>}
                 <Link className="login" to={"/login"}>Already Have Account(Login)</Link>
-                {loading && <div>Loading...</div>}
+                {loading && <Loader/>}
             </div>
         </div>
     );

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { sendDataToapi } from "../../utils/api";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
 import "./Login.scss"
+import Loader from "../../components/Loader/Loader";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -45,7 +46,7 @@ const Login = () => {
                 .then((res) => {
                     setLoading(false);
                     console.log(res);
-                    if (res.data.statusCode === 200) navigate("/home");
+                    if (res.data.statusCode === 200) navigate("/");
                 })
                 .catch((err) => {
                     setLoading(false);
@@ -91,7 +92,7 @@ const Login = () => {
                 </form>
                 {error && <div className="err">{error}</div>}
                 <Link className="login-link" to="/register">New User(Register)</Link>
-                {loading && <div>Loading...</div>}
+                {loading && <Loader />}
             </div>
         </div>
     );
