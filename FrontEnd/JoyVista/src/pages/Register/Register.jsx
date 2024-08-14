@@ -87,7 +87,7 @@ const Register = () => {
                 .then((res) => {
                     setLoading(false);
                     console.log(res);
-                    if (res.data.statusCode === 200) navigate("/home");
+                    if (res.data.statusCode === 200) navigate("/");
                 })
                 .catch((err) => {
                     setLoading(false);

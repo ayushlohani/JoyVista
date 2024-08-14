@@ -22,22 +22,61 @@ const generateAccessandRefreshToken = async (userId)=>{
 }
 
 const getalluser = asyncHandler(async (req,res)=>{
-    const {page = 1,limit = 20,sortType = "desc",sortBy = "createdAt"} = req.query;
-
-    const pageNumber = parseInt(page,10);
-    const pageSize = parseInt(limit,10);
-    const sortDirection = sortType === "asc" ? 1 : -1;
-    const sort = {};
-    sort[sortBy] = sortDirection;
-    const skip = (pageNumber - 1)*pageSize;
-
-    const user = await User.find({}).sort(sort).skip(skip).limit(pageSize).select("-password -refreshToken");
-
-    if(!user){
-        throw new ApiError(404,"User not Found");
+    try {
+        const {page = 1,limit = 20,sortType = "desc",sortBy = "createdAt"} = req.query;
+    
+        const pageNumber = parseInt(page,10);
+        const pageSize = parseInt(limit,10);
+        const sortDirection = sortType === "asc" ? 1 : -1;
+        const sort = {};
+        sort[sortBy] = sortDirection;
+        const skip = (pageNumber - 1)*pageSize;
+    
+        const user = await User.find({}).sort(sort).skip(skip).limit(pageSize).select("-password -refreshToken");
+    
+        if(!user){
+            throw new ApiError(404,"User not Found");
+        }
+    
+        const total = await User.countDocuments({});
+    
+        return res.status(200).json(new ApiResponse(200,{user,total,page:pageNumber,limit:pageSize},"Users fetched successfully"));
+    } catch (error) {
+        throw new ApiError(403,"Getting all Users failed");
     }
+})
 
-    res.status(200).json(new ApiResponse(200,user,"Users fetched successfully"));
+const searchuser = asyncHandler(async (req,res)=>{
+    try {
+        const {search = '',page = 1,limit = 20,sortType = "desc",sortBy = "createdAt"} = req.query;
+    
+        const pageNumber = parseInt(page,10);
+        const pageSize = parseInt(limit,10);
+        const sortDirection = sortType === "asc" ? 1 : -1;
+        const sort = {};
+        sort[sortBy] = sortDirection;
+        const skip = (pageNumber - 1)*pageSize;
+    
+        const searchQuery = search ? {
+            $or:[
+                {name:{$regex:search,$options:'i'}},
+                {email:{$regex:search,$options:'i'}},
+                {username:{$regex:search,$options:'i'}}
+            ]
+        } : {};
+    
+        const user = await User.find(searchQuery).sort(sort).skip(skip).limit(pageSize).select("-password -refreshToken");
+    
+        if(!user){
+            throw new ApiError(404,"User not Found");
+        }
+    
+        const total = await User.countDocuments(searchQuery);
+    
+        return res.status(200).json(new ApiResponse(200,{user,total,page:pageNumber,limit:pageSize},"Users fetched successfully"));
+    } catch (error) {
+        throw new ApiError(401,"Searching User Failed");
+    }
 })
 
 const RegisterUser = asyncHandler(async (req,res)=>{
@@ -185,4 +224,4 @@ const getLoggedinUser = asyncHandler(async (req,res)=>{
     return res.status(200).json(new ApiResponse(200,Loggedinuser,"User Fetched Successfully"));
 })
 
-export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser};
+export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser};
