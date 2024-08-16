@@ -70,6 +70,7 @@ const Register = () => {
                 console.log(res);
             }).catch((err) => {
                 setLoading(false);
+                setError('User Already Exist');
                 console.log(err);
             });
         }

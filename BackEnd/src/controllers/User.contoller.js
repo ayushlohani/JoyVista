@@ -216,12 +216,33 @@ const refreshAccessToken = asyncHandler(async (req,res)=>{
 
 const getLoggedinUser = asyncHandler(async (req,res)=>{
     const user = req.user;
-    const Loggedinuser = await User.findById(user?._id);
-    if(!Loggedinuser){
+    if(!user){
         throw new ApiError(404,"User Not Found");
     }
 
-    return res.status(200).json(new ApiResponse(200,Loggedinuser,"User Fetched Successfully"));
+    return res.status(200).json(new ApiResponse(200,user,"User Fetched Successfully"));
 })
 
-export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser};
+const updateUser = asyncHandler(async (req,res)=>{
+    const user = req.user;
+
+    const {name,email,username,phone} = req.body;
+
+    const userupdated = await User.findByIdAndUpdate(user?._id,{
+        $set:{
+            name,
+            email,
+            username,
+            phone
+        }
+    },{new:true}).select("-password -refreshToken");
+
+    if(!userupdated){
+        throw new ApiError(404,"User Not Found");
+    }
+
+    return res.status(200).json(new ApiResponse(200,userupdated,"User Updated Successfully"));
+    
+})
+
+export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser,updateUser};
