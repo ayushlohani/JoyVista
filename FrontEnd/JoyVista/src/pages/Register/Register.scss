@@ -6,16 +6,15 @@ $Black:#0D0D0D;
 .register {
     display: flex;
     flex-wrap: wrap; // Allow wrapping for responsiveness
-    height: 90vh;
-    background-color: #f4f4f9;
+    height: 100vh;
     overflow: hidden;
-  
     .left-register {
       flex: 1.5;
       display: flex;
       align-items: center;
       justify-content: center;
       background-color: #e0e0e0;
+      height: 100vh;
       img {
         height: 100%;
         width: 100%; // Maintain aspect ratio
@@ -116,15 +115,17 @@ $Black:#0D0D0D;
             background-color: #020c18c9;
           }
         }
-      }
-  
-      .login {
-        margin-top: 1rem;
-        color: #0f51a1;
-        text-decoration: none;
-        height: 0%;
-        &:hover {
-          text-decoration: underline;
+        .login {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 1rem;
+          color: #0f51a1;
+          text-decoration: none;
+          height: 0%;
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
   
@@ -176,6 +177,9 @@ $Black:#0D0D0D;
   @media (max-width: 480px) {
     .right-register {
       padding: 0.5rem;
+    }
+    .left-register{
+      display: none;
     }
   
     .form {

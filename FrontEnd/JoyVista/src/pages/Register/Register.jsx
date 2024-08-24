@@ -18,7 +18,7 @@ const Register = () => {
         phoneno: '',
         password: ''
     });
-    const [profilepic, setProfilepic] = useState(null);
+    const [profilepic, setProfilepic] = useState("https://w7.pngwing.com/pngs/708/467/png-transparent-avatar-default-head-person-unknown-user-anonym-user-pictures-icon.png");
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -30,7 +30,12 @@ const Register = () => {
     };
 
     const handleFileChange = (e) => {
-        setProfilepic(e.target.files[0]); // Store the file object
+        if(e.target.files){
+            setProfilepic(e.target.files[0]);
+        }
+        else{
+            e.target.files[0] = "https://w7.pngwing.com/pngs/708/467/png-transparent-avatar-default-head-person-unknown-user-anonym-user-pictures-icon.png";
+        }
     };
 
     const validate = () => {
@@ -193,9 +198,9 @@ const Register = () => {
                     <div className="full-row">
                         <button type="submit" id="submit">Register</button>
                     </div>
+                    <Link className="login" to={"/login"}>Already Have Account(Login)</Link>
                 </form>
                 {error && <div className="err">*{error}</div>}
-                <Link className="login" to={"/login"}>Already Have Account(Login)</Link>
                 {loading && <Loader/>}
             </div>
         </div>
