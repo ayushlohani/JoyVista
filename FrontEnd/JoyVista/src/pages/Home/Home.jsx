@@ -4,6 +4,7 @@ import { useFetch } from '../../hooks/useFetch';
 import Loader from '../../components/Loader/Loader';
 import { fetchfromapi, sendDataToapi } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import LandingPage from '../Landing-Page/LandingPage';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Home = () => {
 
   return (
     <>{user && <div>Home <button onClick={handleLogout}>Logout</button>{loading && 
-    <Loader />}</div>}{!user && <div>Please Login <button onClick={()=>{navigate("/login")}}>Login</button></div>}</>
+    <Loader />}</div>}{!user && <LandingPage />}</>
   )
 }
 

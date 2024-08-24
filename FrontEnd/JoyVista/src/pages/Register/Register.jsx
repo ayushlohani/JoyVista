@@ -5,6 +5,7 @@ import { sendDataToapi } from "../../utils/api";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
 import "./Register.scss";
 import Loader from "../../components/Loader/Loader";
+import Logo from "../../components/Logo/Logo";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -104,9 +105,10 @@ const Register = () => {
     return (
         <div className="register">
             <div className="left-register">
-                <img src="/register.gif" alt="" />
+                <img src="/register.png" alt="" />
             </div>
             <div className="right-register">
+                <Logo />
                 <h2>Register</h2>
                 <form className="form" onSubmit={handleSubmit}>
                     <div className="row">

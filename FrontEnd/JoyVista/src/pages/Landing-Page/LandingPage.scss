@@ -1,0 +1,98 @@
+.landing-page {
+    width: 100vw;
+    height: 100vh;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+
+        .right {
+            height: 100px;
+            width: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 40px;
+
+            .link {
+                height: 40px;
+                width: 100px;
+                display: flex;
+                margin-right: 20px;
+                border-radius: 3px;
+                justify-content: center;
+                align-items: center;
+                text-decoration: none;
+                color: #020c18;
+                border: 1px solid #020c18;
+
+            }
+            .hi{
+                background-color: #020c18;
+                color: aliceblue;
+            }
+        }
+    }
+
+    .main {
+        height: 90vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        img {
+            width: 50%;
+        }
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 500px) {
+    .header {
+        flex-direction: column;
+        height: auto;
+
+        .right{
+            margin-right: 10px;
+        } 
+        .left {
+            width: 100%;
+            justify-content: center;
+            margin-right: 0;
+            margin-top: 10px;
+            margin-left: 50px;
+        }
+    }
+
+    .main {
+        flex-direction: column;
+        img {
+            width: 90vw;
+            transform: scale(1.3);
+            height: 50vh;
+            margin-top: 20px;
+        }
+    }
+}
+
+@media (max-width: 800px)
+{
+    .main {
+        flex-direction: column;
+        img {
+            width: 90vw;
+            transform: scale(1.3);
+            height: 50vh;
+            margin-top: 20px;
+        }
+    }
+}

@@ -8,7 +8,7 @@
     font-family: Arial, sans-serif;
   
     .left-login {
-      flex: 1;
+      flex: 1.5;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -17,7 +17,6 @@
       img {
         height: 100%;
         width: 100%; // Maintain aspect ratio
-        object-fit: cover; // Cover the container
       }
     }
   
@@ -79,14 +78,14 @@
           padding: 0.75rem;
           border: none;
           border-radius: 4px;
-          background-color: #007bff;
+          background-color: #020c18;
           color: #fff;
           font-size: 1rem;
           cursor: pointer;
           transition: background-color 0.3s ease;
   
           &:hover {
-            background-color: #0056b3;
+            background-color: #020e1de0;
           }
         }
       }
@@ -99,13 +98,14 @@
   
       .login-link {
         margin-top: 1rem;
-        color: #007bff;
+        color: #0f51a1;
         text-decoration: none;
         font-size: 0.875rem;
         transition: color 0.3s ease;
   
         &:hover {
-          color: #0056b3;
+          color: rgb(94, 150, 210);
+          text-decoration: underline;
         }
       }
   
@@ -122,9 +122,6 @@
     .login {
       flex-direction: column;
       align-items: center;
-      img{
-        display: none;
-      }
 
       .right-login {
         flex: none;
@@ -133,6 +130,7 @@
       }
   
       .left-login {
+        display: none;
         img {
           height: auto; // Let the height adjust to maintain aspect ratio
           width: 100%;

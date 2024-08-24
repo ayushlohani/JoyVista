@@ -5,6 +5,7 @@ import { sendDataToapi } from "../../utils/api";
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
 import "./Login.scss"
 import Loader from "../../components/Loader/Loader";
+import Logo from "../../components/Logo/Logo";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -62,9 +63,10 @@ const Login = () => {
     return (
         <div className="login">
             <div className="left-login">
-                <img src="/register.gif" alt="Register Animation" />
+                <img src="/register.png" alt="Register Animation" />
             </div>
             <div className="right-login">
+            <Logo />
                 <h1>Login</h1>
                 <form onSubmit={handleSubmit}>
                     <input
