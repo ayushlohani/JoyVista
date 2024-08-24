@@ -66,7 +66,7 @@ const getUserbyId = asyncHandler(async (req,res)=>{
 
 const searchuser = asyncHandler(async (req,res)=>{
     try {
-        const {search = '',page = 1,limit = 20,sortType = "desc",sortBy = "createdAt"} = req.query;
+        const {search = '',page = 1,limit = 10,sortType = "desc",sortBy = "createdAt"} = req.query;
     
         const pageNumber = parseInt(page,10);
         const pageSize = parseInt(limit,10);
@@ -97,33 +97,39 @@ const searchuser = asyncHandler(async (req,res)=>{
     }
 })
 
-const RegisterUser = asyncHandler(async (req,res)=>{
-    const {name,email,password,bio,username,dob,phoneno} = req.body;
-    if(!name && !email && !password && !bio && !profilepic && username && !dob && !phoneno){
-        throw new ApiError(400,"All Profile Info is required");
+const RegisterUser = asyncHandler(async (req, res) => {
+    const { name, email, password, bio, username, dob, phoneno } = req.body;
+
+    // Check if all required fields are present
+    if (!name || !email || !password || !bio || !username || !dob || !phoneno) {
+        throw new ApiError(400, "All Profile Info is required");
     }
 
-    const existedUser =await User.findOne({
-        $or:[{username},{email}]
+    // Check if the user already exists
+    const existedUser = await User.findOne({
+        $or: [{ username }, { email }]
     });
 
-    if(existedUser){
-        throw new ApiError(401,"User already Existed");
+    if (existedUser) {
+        throw new ApiError(401, "User already exists");
     }
 
-    const profilepicLocalPath = req.files?.profilepic[0]?.path;
+    // Handle profile picture upload
+    let profilepicUrl = "https://w7.pngwing.com/pngs/708/467/png-transparent-avatar-default-head-person-unknown-user-anonym-user-pictures-icon.png";
+    if (req.files && req.files.profilepic && req.files.profilepic.length > 0) {
+        const profilepicLocalPath = req.files.profilepic[0].path;
 
-    // if(!profilepicLocalPath){
-    //     throw new ApiError(402,"File can't be Located");
-    // }
+        // Upload profile picture to Cloudinary
+        try {
+            const profilepic = await uploadonCloudinary(profilepicLocalPath);
+            profilepicUrl = profilepic.url;
+        } catch (error) {
+            throw new ApiError(402, "Profile picture upload to Cloudinary failed");
+        }
+    }
 
-    const profilepic = await uploadonCloudinary(profilepicLocalPath);
-
-    // if(!profilepic){
-    //     throw new ApiError(401,"Profile Upload in cloudinary is failed");
-    // }
-
-    const user =await User.create({
+    // Create the user
+    const user = await User.create({
         name,
         username,
         email,
@@ -131,18 +137,20 @@ const RegisterUser = asyncHandler(async (req,res)=>{
         bio,
         phoneno,
         dob,
-        profilepic:profilepic.url || "https://w7.pngwing.com/pngs/708/467/png-transparent-avatar-default-head-person-unknown-user-anonym-user-pictures-icon.png"
-    })
+        profilepic: profilepicUrl // This can be null if no profile picture was uploaded
+    });
 
-    if(!user){
-        throw await ApiError(401,"User Creation Failed!!")
+    if (!user) {
+        throw new ApiError(401, "User creation failed");
     }
 
-    const createduser = await User.findById(user._id).select("-password -refreshToken");
+    // Fetch the created user, excluding sensitive fields
+    const createdUser = await User.findById(user._id).select("-password -refreshToken");
 
-    res.status(200).json(new ApiResponse(200,createduser,"User Registered Successfully!"));
-
+    // Respond with the created user
+    res.status(200).json(new ApiResponse(200, createdUser, "User registered successfully!"));
 });
+
 
 const LoginUser = asyncHandler(async (req,res)=>{
 
