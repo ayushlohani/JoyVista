@@ -46,6 +46,24 @@ const getalluser = asyncHandler(async (req,res)=>{
     }
 })
 
+const getUserbyId = asyncHandler(async (req,res)=>{
+    const {id} = req.params;
+
+    if(!id){
+        throw new ApiError(404,"Id not Found");
+    }
+
+    const user = await User.findById(id).select("-password -refreshToken");
+
+    if(!user){
+        throw new ApiError(404,"User does not exist");
+    }
+
+    return res.status(200).json(new ApiResponse(200,user,"User Fetched Successfully"));
+
+
+})
+
 const searchuser = asyncHandler(async (req,res)=>{
     try {
         const {search = '',page = 1,limit = 20,sortType = "desc",sortBy = "createdAt"} = req.query;
@@ -245,4 +263,30 @@ const updateUser = asyncHandler(async (req,res)=>{
     
 })
 
-export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser,updateUser};
+const updatePassword = asyncHandler(async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const isPasswordCorrect =await user.isPasswordCorrect(oldPassword);
+    if (!isPasswordCorrect) {
+        throw new ApiError(400, "Invalid Old Password");
+    }
+
+    user.password = newPassword;
+    await user.save({ validateBeforeSave: false });
+
+    const {accesstoken,refreshToken} = await generateAccessandRefreshToken(user._id);
+
+    const options = {
+        httpOnly : true,
+        secure : true
+    }
+
+    return res.status(200).cookie("accessToken",accesstoken,options).cookie("refreshToken",refreshToken,options).json(new ApiResponse(200, {}, "Password Changed"));
+});
+
+
+export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser,updateUser,getUserbyId,updatePassword};

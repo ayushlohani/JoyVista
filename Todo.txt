@@ -1,3 +1,3 @@
-Backend = create getallUsers,getUserById,searchuser,updateuserprofile and updateuserdetail enpoint
+Backend = create updateuserprofile and updateuserdetail enpoint //Add Token Version in logic
 Backend =  create posts controller endpoint
 create HomePage Design 
