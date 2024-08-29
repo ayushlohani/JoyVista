@@ -1,3 +1,3 @@
 create HomePage Design 
-Backend = create updateuserprofilepic enpoint //Add Token Version in logic //add increase follower and following endpoint
+Backend =  //Add Token Version in logic //add increase follower and following endpoint
 Backend =  create posts controller endpoint //getallpost,getPostById,getSavedPost //add like and comment endpoint

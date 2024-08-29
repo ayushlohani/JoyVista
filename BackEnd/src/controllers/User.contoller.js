@@ -323,6 +323,35 @@ const updateProfilepic = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, updatedUser, "User Profile Pic updated successfully"));
 });
 
+const follow = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    // Find the user to follow
+    const usertofollow = await User.findById(id).select("-password -refreshToken");
+    if (!usertofollow) {
+        throw new ApiError(404, "User not Found");
+    }
+
+    // Check if the user is already a follower
+    if (usertofollow.followers.includes(req.user._id)) {
+        throw new ApiError(400, "You are already following this user");
+    }
+
+    // Update the followers list of the user to follow
+    usertofollow.followers.push(req.user._id);
+    await usertofollow.save();
+
+    // Find the current user and update their following list
+    const userfollowing = await User.findById(req.user._id).select("-password -refreshToken");
+    if (!userfollowing) {
+        throw new ApiError(404, "User not Found");
+    }
+
+    userfollowing.following.push(id);
+    await userfollowing.save();
+
+    return res.status(200).json(new ApiResponse(200, { usertofollow, userfollowing }, "Followed Successfully"));
+});
 
 
-export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser,updateUser,getUserbyId,updatePassword,updateProfilepic};
+export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser,updateUser,getUserbyId,updatePassword,updateProfilepic,follow};
