@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getalluser, getLoggedinUser, getUserbyId, LoginUser, LogoutUser, refreshAccessToken, RegisterUser, searchuser, updatePassword, updateUser } from "../controllers/User.contoller.js";
+import { getalluser, getLoggedinUser, getUserbyId, LoginUser, LogoutUser, refreshAccessToken, RegisterUser, searchuser, updatePassword, updateProfilepic, updateUser } from "../controllers/User.contoller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -17,5 +17,6 @@ router.route("/getUser/:id").get(getUserbyId);
 
 router.route("/updateUser").patch(verifyJWT,updateUser);
 router.route("/updatePassword").patch(verifyJWT,updatePassword);
+router.route("/updateProfilePic").patch(verifyJWT,upload.single("profilepic"),updateProfilepic);
 
 export default router;

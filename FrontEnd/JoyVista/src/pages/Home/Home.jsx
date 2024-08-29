@@ -43,6 +43,7 @@ const Home = () => {
       <div className="prof"><Profile key={user?.data?.username} user = {user.data} handleLogout = {handleLogout}/></div>
       <div className="content"></div>
       <div className="sidebar"></div>
+      <button onClick={handleLogout}>Logout</button>
     </div>}
     {loading && <Loader />}
     {!user && <LandingPage />}

@@ -296,5 +296,33 @@ const updatePassword = asyncHandler(async (req, res) => {
     return res.status(200).cookie("accessToken",accesstoken,options).cookie("refreshToken",refreshToken,options).json(new ApiResponse(200, {}, "Password Changed"));
 });
 
+const updateProfilepic = asyncHandler(async (req, res) => {
+    const profilepic = req.file?.path;
+    if (!profilepic) {
+        throw new ApiError(401, "Profile Picture Required To Update");
+    }
 
-export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser,updateUser,getUserbyId,updatePassword};
+    // Await the Cloudinary upload function
+    const cloudinaryResult = await uploadonCloudinary(profilepic);
+
+    if (!cloudinaryResult || !cloudinaryResult.url) {
+        throw new ApiError(402, "Cloudinary upload failed!!");
+    }
+
+    const user = req.user;
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        { $set: { profilepic: cloudinaryResult.url } },
+        { new: true }
+    ).select("-password -refreshToken");
+
+    return res.status(200).json(new ApiResponse(200, updatedUser, "User Profile Pic updated successfully"));
+});
+
+
+
+export {RegisterUser,LoginUser,LogoutUser,refreshAccessToken,getLoggedinUser,getalluser,searchuser,updateUser,getUserbyId,updatePassword,updateProfilepic};
