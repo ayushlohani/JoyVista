@@ -8,6 +8,7 @@ import LandingPage from '../Landing-Page/LandingPage';
 import Profile from '../../components/Profile/Profile';
 import { useDispatch } from 'react-redux';
 import { Useraction } from '../../store/Slices/userSlice';
+import "./Home.scss"
 
 const Home = () => {
   const navigate = useNavigate();
@@ -41,9 +42,13 @@ const Home = () => {
     {user && 
     <div className='Home'>
       <div className="prof"><Profile key={user?.data?.username} user = {user.data} handleLogout = {handleLogout}/></div>
-      <div className="content"></div>
-      <div className="sidebar"></div>
-      <button onClick={handleLogout}>Logout</button>
+      <div className="content">
+         <div className="center">
+            <div className="searchbar"><button onClick={handleLogout}>Logout</button></div>
+            <div className="posts"></div>
+         </div>
+         <div className="sidebar"></div>
+      </div>
     </div>}
     {loading && <Loader />}
     {!user && <LandingPage />}
