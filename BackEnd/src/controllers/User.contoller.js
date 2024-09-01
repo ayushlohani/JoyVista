@@ -339,7 +339,7 @@ const follow = asyncHandler(async (req, res) => {
 
     // Update the followers list of the user to follow
     usertofollow.followers.push(req.user._id);
-    await usertofollow.save();
+    await usertofollow.save({validateBeforeSave:false});
 
     // Find the current user and update their following list
     const userfollowing = await User.findById(req.user._id).select("-password -refreshToken");
@@ -348,7 +348,7 @@ const follow = asyncHandler(async (req, res) => {
     }
 
     userfollowing.following.push(id);
-    await userfollowing.save();
+    await userfollowing.save({validateBeforeSave:false});
 
     return res.status(200).json(new ApiResponse(200, { usertofollow, userfollowing }, "Followed Successfully"));
 });

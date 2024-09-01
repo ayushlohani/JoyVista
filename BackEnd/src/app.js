@@ -18,7 +18,10 @@ app.use(express.static("public"));
 
 //TODO:import routes
 import UserRouter from "./routes/user.route.js"
+import PostRouter from "./routes/post.route.js"
 
-app.use("/api/v1/users",UserRouter);
+const base_url = "/api/v1"
+app.use(`${base_url}/users`,UserRouter);
+app.use(`${base_url}/post`,PostRouter);
 
 export default app;
