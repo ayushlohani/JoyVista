@@ -9,7 +9,7 @@ const getallpost = asyncHandler(async (req,res)=>{
     const {page = 1,limit = 10,sortBY = 'createdAt',sortType = 'desc'} = req.query;
 
     const pageNo = parseInt(page,10);
-    const pageSize = parseInt(page,10);
+    const pageSize = parseInt(limit,10);
     const sort ={
         sortBY : sortType === 'asc' ? 1 : -1
     }
